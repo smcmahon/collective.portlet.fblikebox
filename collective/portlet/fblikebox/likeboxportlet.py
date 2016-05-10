@@ -26,15 +26,15 @@ class ILikeBoxPortlet(IPortletDataProvider):
     # below.
 
     fb_page_id = schema.TextLine(
-        title=_(u"Facebook Page ID"),
-        description=_(u"The ID of the Facebook Page for this Like box."),
+        title=_(u"Facebook Page URL"),
+        description=_(u"The URL of the Facebook Page for this Like box."),
         required=True)
 
-    box_width = schema.Int(
-        title=_(u'Display width'),
-        description=_(u'Pixel width of like box.'),
-        required=True,
-        default=150)
+    # box_width = schema.Int(
+    #     title=_(u'Display width'),
+    #     description=_(u'Pixel width of like box.'),
+    #     required=True,
+    #     default=150)
 
     box_height = schema.Int(
         title=_(u'Display height'),
@@ -42,23 +42,36 @@ class ILikeBoxPortlet(IPortletDataProvider):
         required=True,
         default=500)
 
-    show_header = schema.Bool(
-        title=_(u"Show header"),
-        description=_(u"Show the 'Find us on Facebook' bar at top. Only shown when either stream or connections are present."),
+    # show_header = schema.Bool(
+    #     title=_(u"Show header"),
+    #     description=_(u"Show the 'Find us on Facebook' bar at top. Only shown when either stream or connections are present."),
+    #     required=True,
+    #     default=True)
+
+    # show_stream = schema.Bool(
+    #     title=_(u"Show stream"),
+    #     description=_(u"Show the profile stream for the public profile."),
+    #     required=True,
+    #     default=True)
+
+    # connections = schema.Int(
+    #     title=_(u"Connections"),
+    #     description=_(u"Show a sample of this many users who have liked this Page."),
+    #     required=True,
+    #     default=10)
+    #
+    show_facepile = schema.Bool(
+        title=_(u"Show friend's faces"),
+        description=_(u"Show profile photos when friends of viewer like this."),
         required=True,
         default=True)
 
-    show_stream = schema.Bool(
-        title=_(u"Show stream"),
-        description=_(u"Show the profile stream for the public profile."),
+    tabs = schema.TextLine(
+        title=_(u"Tabs to render"),
+        description=_(u"Tabs to render i.e. timeline, events, messages. Use a comma-separated list to add multiple tabs, i.e. timeline, events."),
         required=True,
-        default=True)
+        default=u'timeline')
 
-    connections = schema.Int(
-        title=_(u"Connections"),
-        description=_(u"Show a sample of this many users who have liked this Page."),
-        required=True,
-        default=10)
 
 
 class Assignment(base.Assignment):
@@ -71,29 +84,34 @@ class Assignment(base.Assignment):
     implements(ILikeBoxPortlet)
 
     # some_field = u""
-    fb_page_id = u"185550966885"
+    fb_page_id = u"https://www.facebook.com/yourpage"
     box_width = 150
     box_height = 500
     show_header = True
     show_stream = True
     connections = 10
-    
+    show_facepile = True
+    tabs = u'timeline'
 
     def __init__(
                 self,
-                fb_page_id=u"185550966885", 
-                box_width=150, 
-                box_height=500, 
+                fb_page_id=u"185550966885",
+                box_width=150,
+                box_height=500,
                 show_header=True,
                 show_stream=True,
-                connections=10):
-                        
+                connections=10,
+                show_facepile=True,
+                tabs=u'timeline'):
+
         self.fb_page_id = fb_page_id
         self.box_width = box_width
         self.box_height = box_height
         self.show_header = show_header
         self.show_stream = show_stream
         self.connections = connections
+        self.show_facepile = show_facepile
+        self.tabs = 'timeline'
 
     @property
     def title(self):
